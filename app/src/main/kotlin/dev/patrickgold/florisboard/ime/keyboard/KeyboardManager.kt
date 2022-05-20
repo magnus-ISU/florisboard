@@ -72,7 +72,6 @@ data class RenderInfo(
 )
 
 private val DefaultRenderInfo = RenderInfo()
-private val DoubleSpacePeriodMatcher = """([^.!?‽\s]\s)""".toRegex()
 
 class KeyboardManager(context: Context) : InputKeyEventReceiver {
     private val prefs by florisPreferenceModel()
@@ -479,8 +478,7 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
     }
 
     /**
-     * Handles a [KeyCode.SPACE] event. Also handles the auto-correction of two space taps if
-     * enabled by the user.
+     * Handles a [KeyCode.SPACE] event. Also autocorrects "n " to "n. " and ". " to "  ".
      */
     private fun handleSpace(ev: InputKeyEvent) {
         if (prefs.keyboard.spaceBarSwitchesToCharacters.get()) {
@@ -496,11 +494,20 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
         val instance = activeEditorInstance ?: return
         if (prefs.correction.doubleSpacePeriod.get()) {
             if (ev.isConsecutiveEventOf(inputEventDispatcher.lastKeyEventUp, prefs.keyboard.longPressDelay.get().toLong())) {
-                val text = instance.getTextBeforeCursor(2)
-                if (text.length == 2 && DoubleSpacePeriodMatcher.matches(text)) {
-                    instance.deleteBackwards()
-                    instance.commitText(". ")
-                    return
+                when (instance.getTextBeforeCursor(2)) {
+                    "  " -> {
+                        /* default spacebar behavior */
+                    }
+                    ". " -> {
+                        instance.sendDownUpKeyEvent(KeyCode.DELETE, count = 2)
+                        instance.commitText("  ")
+                        return
+                    }
+                    else -> {
+                        instance.deleteBackwards()
+                        instance.commitText(". ")
+                        return
+                    }
                 }
             }
         }
