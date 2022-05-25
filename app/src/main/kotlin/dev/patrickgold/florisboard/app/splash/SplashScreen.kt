@@ -40,6 +40,7 @@ fun SplashScreen() = Box(
     contentAlignment = Alignment.Center,
 ) {
     val prefs by florisPreferenceModel()
+
     val isModelLoaded by prefs.datastoreReadyStatus.observeAsState()
     val isImeSetUp by prefs.internal.isImeSetUp.observeAsState()
     val navController = LocalNavController.current
