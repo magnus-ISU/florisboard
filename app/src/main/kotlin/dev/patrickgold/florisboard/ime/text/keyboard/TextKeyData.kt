@@ -401,6 +401,12 @@ class TextKeyData(
             code = KeyCode.IME_UI_MODE_MEDIA,
             label = "ime_ui_mode_media",
         )
+        /** Predefined key data for [Keycode.IME_UI_MODE_EMOJI_SEARCH] */
+        val IME_UI_MODE_EMOJI_SEARCH = TextKeyData(
+            type = KeyType.SYSTEM_GUI,
+            code = KeyCode.IME_UI_MODE_EMOJI_SEARCH,
+            label = "ime_ui_mode_emoji_search",
+        )
         /** Predefined key data for [KeyCode.IME_UI_MODE_CLIPBOARD] */
         val IME_UI_MODE_CLIPBOARD = TextKeyData(
             type = KeyType.SYSTEM_GUI,
