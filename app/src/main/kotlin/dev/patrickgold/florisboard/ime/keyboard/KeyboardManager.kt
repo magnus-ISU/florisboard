@@ -544,11 +544,25 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
         editorInstance.commitText(KeyCode.SPACE.toChar().toString())
     }
 
+    private var emoji_name_length: Int? = null
     /**
      * Handles a [KeyCode.IME_UI_MODE_EMOJI_SEARCH] cancel event.
      */
     private fun handleEmojiSearch() {
-        editorInstance.commitText("Unimplemented")
+        if (null == emoji_name_length) {
+            //TODO prevent seeking away from this or make it so moving cursor accepts the closest emoji
+
+            // Store the current location so we can delete back to it
+            emoji_name_length = 0
+            //TODO increase this when inputting, decrease when deleting
+        } else {
+            // Remove the emoji name
+            for (i in 1..emoji_name_length!!) {
+                editorInstance.deleteBackwards()
+            }
+            emoji_name_length = null
+            editorInstance.commitText("Unimplemented")
+        }
     }
 
     /**
