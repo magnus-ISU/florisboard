@@ -545,7 +545,6 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
                     else -> {
                         editorInstance.deleteBackwards()
                         editorInstance.commitText(". ")
-                        activeState.inputShiftState = InputShiftState.SHIFTED_AUTOMATIC
                         return
                     }
                 }
