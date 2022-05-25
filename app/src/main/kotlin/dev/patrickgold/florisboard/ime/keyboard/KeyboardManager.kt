@@ -531,8 +531,7 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
         }
         if (prefs.correction.doubleSpacePeriod.get()) {
             if (inputEventDispatcher.isConsecutiveUp(data)) {
-                val textBeforeCursor = editorInstance.run { activeContent.getTextBeforeCursor(2) }
-                when (textBeforeCursor) {
+                when (editorInstance.run { activeContent.getTextBeforeCursor(2) }) {
                     "  " -> {
                         /* default spacebar behavior */
                     }
